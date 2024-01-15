@@ -1,5 +1,5 @@
-// Nombre del alumno .....
-// Usuario del Juez ......
+// Nombre del alumno ..... Steven Mallqui Aguilar
+// Usuario del Juez ...... F53
 
 
 #include <iostream>
@@ -18,14 +18,14 @@ TipoSolucion resolver(TipoDatos datos) {
 // configuración, y escribiendo la respuesta
 bool resuelveCaso() {
     // leer los datos de la entrada
-    
+
     if (caso especial)
         return false;
-    
+
     TipoSolucion sol = resolver(datos);
-    
+
     // escribir sol
-    
+
     return true;
     
 }

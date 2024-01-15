@@ -1,5 +1,5 @@
-// Nombre del alumno .....
-// Usuario del Juez ......
+// Nombre del alumno ..... Steven Mallqui Aguilar
+// Usuario del Juez ...... F53
 
 
 #include <iostream>
