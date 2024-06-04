@@ -9,24 +9,47 @@
 using namespace std;
 
 struct Gocho{
-  int suma, inicio, longitud;
+  int suma = 0, inicio = 0, longitud = 0;
 };
 
 // función que resuelve el problema
-Gocho resolver(vector<int> const& datos) {
+Gocho resolver(const vector<int> & datos) {
+    Gocho amigo;
+    int i = 0, sum = 0, ini = 0, longitud = 0;
     
-    
+    while(i < datos.size()){
+        if(sum + datos[i] <= 0){
+            ini = i + 1;
+            sum = 0;
+        }else{
+            sum += datos[i];
+            longitud = i - ini + 1;
+            if((sum > amigo.suma) || (sum == amigo.suma && longitud < amigo.longitud)){
+                amigo.suma = sum;
+                amigo.inicio = ini;
+                amigo.longitud = longitud;
+            }
+        }
+        i++;
+    }
+
+    return amigo;
 }
 
 // Resuelve un caso de prueba, leyendo de la entrada la
 // configuración, y escribiendo la respuesta
 bool resuelveCaso() {
     // leer los datos de la entrada
-    int N; cin >> N;
+    int N, elem; cin >> N;
     if (! std::cin)
         return false;
     
     vector<int> datos;
+    for(int i = 0; i < N; i++){
+        cin >> elem;
+        datos.push_back(elem);
+    }
+
     Gocho sol = resolver(datos);
     
     // escribir sol
