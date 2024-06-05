@@ -11,18 +11,16 @@ using namespace std;
 
 // función que resuelve el problema
 int resolver(const vector<int> & datos) {
-  int maxTramos = 0, ini = 0, tramos = 0, i = 0, actual = datos[0];
+  int maxTramos = 0, ini = 0, i = 0, actual = datos[0];
 
   while(i < datos.size()){
     if(actual >= datos[i]){
-      tramos++;
-      if(tramos > maxTramos)
-        maxTramos = tramos;
+      if(i - ini + 1 > maxTramos)
+        maxTramos = i - ini + 1;
       actual = datos[i];
       i++;
     }else{
       ini = i;
-      tramos = 0;
       actual = datos[i];
     }
   }
@@ -67,7 +65,6 @@ int main() {
     // Para restablecer entrada. Comentar para acepta el reto
      #ifndef DOMJUDGE // para dejar todo como estaba al principio
      std::cin.rdbuf(cinbuf);
-     system("PAUSE");
      #endif
     
     return 0;
