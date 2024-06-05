@@ -10,22 +10,24 @@ using namespace std;
 
 
 // función que resuelve el problema
-int resolver(const vector<int>& datos) {
-  int p = -1, i = 0, cont = 0;
+int resolver(const vector<int> & datos) {
+  int maxTramos = 0, ini = 0, tramos = 0, i = 0, actual = datos[0];
 
   while(i < datos.size()){
-    if(datos[i] == 0){
-      cont--;
-    }else if(datos[i] == 1){
-      cont++;
+    if(actual >= datos[i]){
+      tramos++;
+      if(tramos > maxTramos)
+        maxTramos = tramos;
+      actual = datos[i];
+      i++;
+    }else{
+      ini = i;
+      tramos = 0;
+      actual = datos[i];
     }
-
-    if(cont == 0)
-      p = i;
-    i++;
   }
 
-  return p;  
+  return maxTramos;
 }
 
 // Resuelve un caso de prueba, leyendo de la entrada la
@@ -33,15 +35,18 @@ int resolver(const vector<int>& datos) {
 void resuelveCaso() {
   // leer los datos de la entrada
   int N, elem; cin >> N;
-  vector<int> datos;
 
+  vector<int> datos;
   for(int i = 0; i < N; i++){
     cin >> elem;
     datos.push_back(elem);
   }
   
   // escribir sol
-  cout << resolver(datos) << '\n';
+  if(N == 0)
+    cout << 0 << '\n';
+  else 
+    cout << resolver(datos) << '\n'; 
 }
 
 int main() {
