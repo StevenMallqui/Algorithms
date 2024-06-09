@@ -9,35 +9,37 @@ using namespace std;
 
 
 // función que resuelve el problema
+void polidivisibles(long long raiz, int nivel, int maxDigitos) {
+  if(nivel > maxDigitos) return;
 
-void suma(int elem, int &acc){
-  if(elem < 10)
-    acc += elem;
-  else{
-    acc += elem%10;
-    suma(elem/10, acc); 
+  cout << raiz <<'\n';
+
+  for(int i = 0; i < 10; i++){
+    long long nuevoNum = raiz * 10 + i;
+    if(nuevoNum%(nivel + 1) == 0)
+      polidivisibles(nuevoNum, nivel + 1, maxDigitos);
   }
 }
 
-void sumanLoMismo(int n, int elem) {
-  int acc = 0; 
-  suma(elem, acc);
-  if(n == acc)
-    cout << elem << ' ';
+void escribePolidivisibles(long long raiz, int maxDigitos){
+  int nivel = to_string(raiz).size();
+  polidivisibles(raiz, nivel, maxDigitos);
 }
 
 // Resuelve un caso de prueba, leyendo de la entrada la
 // configuración, y escribiendo la respuesta
-void resuelveCaso() {
+bool resuelveCaso() {
+  // leer los datos de la entrada
+  long long int N, D; cin >> N;
+  if (! std::cin)
+      return false;
+  cin >> D;  
 
-  int N, num, elem, aux=0; cin >> N >> num;
-  suma(num, aux);
-  for(int i = 0; i < N; i++){
-    cin >> elem;
-    sumanLoMismo(aux, elem);
-  }
+  escribePolidivisibles(N, D);
+  cout << "---" << '\n';
 
-  cout <<'\n';
+  return true;
+    
 }
 
 int main() {
@@ -49,10 +51,8 @@ int main() {
      #endif 
     
     
-    int numCasos;
-    std::cin >> numCasos;
-    for (int i = 0; i < numCasos; ++i)
-        resuelveCaso();
+    while (resuelveCaso())
+        ;
 
     
     // Para restablecer entrada. Comentar para acepta el reto

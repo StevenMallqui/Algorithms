@@ -8,36 +8,29 @@
 using namespace std;
 
 
-// función que resuelve el problema
-
-void suma(int elem, int &acc){
-  if(elem < 10)
-    acc += elem;
-  else{
-    acc += elem%10;
-    suma(elem/10, acc); 
-  }
-}
-
-void sumanLoMismo(int n, int elem) {
-  int acc = 0; 
-  suma(elem, acc);
-  if(n == acc)
-    cout << elem << ' ';
-}
-
 // Resuelve un caso de prueba, leyendo de la entrada la
 // configuración, y escribiendo la respuesta
-void resuelveCaso() {
 
-  int N, num, elem, aux=0; cin >> N >> num;
-  suma(num, aux);
-  for(int i = 0; i < N; i++){
-    cin >> elem;
-    sumanLoMismo(aux, elem);
+pair<bool, int> interesante(int n, int sumaSu){
+  if(n < 10){
+    return {sumaSu%n == 0, n};
+  }else if(n == 0)
+    return {false, -1};
+  else{
+    int ultimo = n%10;
+    auto[inter, sumaPre] = interesante(n/10, sumaSu + ultimo);
+    return {inter && (sumaPre%ultimo == 0) && (sumaSu%ultimo == 0), sumaPre + ultimo};
   }
+}
 
-  cout <<'\n';
+void resuelveCaso() {
+  // leer los datos de la entrada
+  
+  int n; cin >> n;
+  if(interesante(n, 0).first)
+    cout << "SI\n";
+  else 
+    cout << "NO\n";
 }
 
 int main() {

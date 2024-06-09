@@ -9,35 +9,27 @@ using namespace std;
 
 
 // función que resuelve el problema
-
-void suma(int elem, int &acc){
-  if(elem < 10)
-    acc += elem;
-  else{
-    acc += elem%10;
-    suma(elem/10, acc); 
-  }
-}
-
-void sumanLoMismo(int n, int elem) {
-  int acc = 0; 
-  suma(elem, acc);
-  if(n == acc)
-    cout << elem << ' ';
+int resolver(int n) {
+  if(n == 0)
+    return 1;
+  else if(n == 1)
+    return 0;
+  else
+    return resolver(n-1) + 1;
+    
 }
 
 // Resuelve un caso de prueba, leyendo de la entrada la
 // configuración, y escribiendo la respuesta
-void resuelveCaso() {
-
-  int N, num, elem, aux=0; cin >> N >> num;
-  suma(num, aux);
-  for(int i = 0; i < N; i++){
-    cin >> elem;
-    sumanLoMismo(aux, elem);
-  }
-
-  cout <<'\n';
+bool resuelveCaso() {
+  // leer los datos de la entrada
+  int n; cin >> n;
+  if (! std::cin)
+      return false;
+  
+  cout << resolver(n) <<'\n';
+  
+  return true;
 }
 
 int main() {
@@ -49,15 +41,14 @@ int main() {
      #endif 
     
     
-    int numCasos;
-    std::cin >> numCasos;
-    for (int i = 0; i < numCasos; ++i)
-        resuelveCaso();
+    while (resuelveCaso())
+        ;
 
     
     // Para restablecer entrada. Comentar para acepta el reto
      #ifndef DOMJUDGE // para dejar todo como estaba al principio
      std::cin.rdbuf(cinbuf);
+     system("PAUSE");
      #endif
     
     return 0;
