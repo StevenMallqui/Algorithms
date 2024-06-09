@@ -1,44 +1,76 @@
-#include <iostream>
-#include <vector>
-#include <queue>
-#include <string>
+// Yule Zhang
+// E81
 
+#include <iostream>
+#include <iomanip>
+#include <fstream>
+#include <vector>
 using namespace std;
 
-// Función recursiva para generar números polidivisibles
-void generaPolidivisibles(long long raiz, int nivel, int maxDigitos) {
-    if (nivel > maxDigitos) return;
-
-    // Verificar si el número generado hasta ahora es polidivisible
-    cout << raiz << endl;
-
-    // Extender el número actual agregando dígitos del 0 al 9
-    for (int i = 0; i < 10; ++i) {
-        long long nuevoNumero = raiz * 10 + i;
-        if (nuevoNumero % (nivel + 1) == 0) {
-            generaPolidivisibles(nuevoNumero, nivel + 1, maxDigitos);
-        }
+// funci¨®n que resuelve el problema
+int combinatorio(int a, int b, vector<vector<int>>& matriz) {
+    if (b == 0 || a == b) { 
+        matriz[a][b] = 1;
+        return 1; 
     }
+    else if (b == 1) {
+        matriz[a][b] = a;
+        return a;
+    }
+    else {
+        if (matriz[a - 1][b - 1] == -1)
+            matriz[a - 1][b - 1] = combinatorio(a - 1, b - 1, matriz);
+        if (matriz[a - 1][b] == -1)
+            matriz[a - 1][b] = combinatorio(a - 1, b, matriz);
+        return
+            matriz[a - 1][b - 1] + matriz[a - 1][b];
+    }
+
 }
 
-// Función no recursiva que inicia el proceso
-void escribePolidivisibles(long long raiz, int maxDigitos) {
-    int nivel = to_string(raiz).length(); // Nivel inicial basado en los dígitos de la raíz
-    generaPolidivisibles(raiz, nivel, maxDigitos);
-    cout << "---" << endl;
+// Resuelve un caso de prueba, leyendo de la entrada la
+// configuraci¨®n, y escribiendo la respuesta
+bool resuelveCaso() {
+    // leer los datos de la entrada
+    int a, b;
+    cin >> a >> b;
+    if (!cin)
+        return false;
+    //crear la matriz inicializada a -1
+    vector<vector<int>> matriz(a + 1, vector<int>(b + 1));
+    for (int i = 0; i < a + 1; i++) {
+        for (int j = 0; j < b + 1; j++) {
+            matriz[i][j] = -1;
+        }
+    }
+
+    auto sol = combinatorio(a, b, matriz);
+
+    // escribir sol
+    cout << sol << endl;
+
+    return true;
+
 }
 
 int main() {
-    vector<pair<long long, int>> casosDePrueba = {
-        {2016, 4},
-        {2016, 5},
-        {2016, 6},
-        {1, 1}
-    };
+    // Para la entrada por fichero.
+    // Comentar para acepta el reto
+#ifndef DOMJUDGE
+    std::ifstream in("datos.txt");
+    auto cinbuf = std::cin.rdbuf(in.rdbuf()); //save old buf and redirect std::cin to casos.txt
+#endif 
 
-    for (const auto& caso : casosDePrueba) {
-        escribePolidivisibles(caso.first, caso.second);
-    }
+
+    while (resuelveCaso())
+        ;
+
+
+    // Para restablecer entrada. Comentar para acepta el reto
+#ifndef DOMJUDGE // para dejar todo como estaba al principio
+    std::cin.rdbuf(cinbuf);
+    system("PAUSE");
+#endif
 
     return 0;
 }

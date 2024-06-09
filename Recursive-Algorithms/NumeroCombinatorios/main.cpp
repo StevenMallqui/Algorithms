@@ -5,44 +5,45 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
+#include <vector>
 using namespace std;
 
 
 // función que resuelve el problema
-bool sinUnos(int n){
-  if(n < 10){
-    if(n == 1)
-      return false;
-    return true;
+
+void combinatorio(int a, int b, vector<vector<int>>& combs){
+  if(b == 0 || a == b){
+    combs[a][b] = 1;
+  }else if(b == 1){
+    combs[a][b] = a;
   }else{
-    if(n%10 == 1)
-      return false;
-    return sinUnos(n/10);
+    if (combs[a - 1][b - 1] == -1)
+      combinatorio(a - 1, b - 1, combs);
+    if (combs[a - 1][b] == -1)
+      combinatorio(a - 1, b, combs);
+    combs[a][b] = combs[a-1][b-1] + combs[a-1][b];
   }
 }
 
-void resolver(int n) {
-  int cont = 0;
-  while (n >= 0)
-  {
-    if(sinUnos(n))
-      cont++;
-    n--;
-  }
 
-  cout << cont <<'\n';
+void resolver(int a, int b) {
+  vector<vector<int>> combs(a + 1, vector<int>(b + 1, -1));
+  combinatorio(a, b, combs);
+  cout << combs[a][b] <<'\n';
 }
 
 // Resuelve un caso de prueba, leyendo de la entrada la
 // configuración, y escribiendo la respuesta
 bool resuelveCaso() {
   // leer los datos de la entrada
-  int n; cin >> n;
+  int a; cin >> a;
   if (! std::cin)
       return false;
   
-  resolver(n);
+  int b; cin >> b;
   
+  resolver(a, b);
+
   return true;
 }
 

@@ -9,41 +9,38 @@ using namespace std;
 
 
 // función que resuelve el problema
-bool sinUnos(int n){
+int resolver(int n, int minDer, int &suma, bool turno) {
   if(n < 10){
-    if(n == 1)
-      return false;
-    return true;
+    suma += n * 3 + minDer;
+    return n;
   }else{
-    if(n%10 == 1)
-      return false;
-    return sinUnos(n/10);
+    int ultimo = n%10;
+    int minD = min(ultimo, minDer);
+    int mayorIz;
+    if(turno){
+      mayorIz = resolver(n/10, minD, suma, false);
+      suma += ultimo * 2 + mayorIz;
+    }
+    else{
+      suma += ultimo * 3 + minDer;
+      mayorIz = resolver(n/10, minD, suma, true);
+    }
+    return max(ultimo, mayorIz);
   }
-}
-
-void resolver(int n) {
-  int cont = 0;
-  while (n >= 0)
-  {
-    if(sinUnos(n))
-      cont++;
-    n--;
-  }
-
-  cout << cont <<'\n';
+    
 }
 
 // Resuelve un caso de prueba, leyendo de la entrada la
 // configuración, y escribiendo la respuesta
-bool resuelveCaso() {
+void resuelveCaso() {
   // leer los datos de la entrada
-  int n; cin >> n;
-  if (! std::cin)
-      return false;
-  
-  resolver(n);
-  
-  return true;
+  long long n; cin >> n;
+
+  int suma = 0; 
+  int a = resolver(n, n%10, suma, true);
+
+  // escribir sol
+  cout << suma <<'\n';  
 }
 
 int main() {
@@ -55,8 +52,10 @@ int main() {
      #endif 
     
     
-    while (resuelveCaso())
-        ;
+    int numCasos;
+    std::cin >> numCasos;
+    for (int i = 0; i < numCasos; ++i)
+        resuelveCaso();
 
     
     // Para restablecer entrada. Comentar para acepta el reto
