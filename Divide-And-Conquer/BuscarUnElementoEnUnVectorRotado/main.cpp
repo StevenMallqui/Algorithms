@@ -10,27 +10,24 @@ using namespace std;
 
 
 // función que resuelve el problema
-bool buscar(const vector<int>& datos, int inicio, int fin ,int valor){
-  if(inicio > fin)
-    return false;
-  else{
-    int pos = (inicio + fin) / 2;
-    if(datos[pos] == valor)
-      return true;
-    
-    if(datos[inicio] <= datos[pos - 1]){
-      if(datos[inicio] <= valor && valor < datos[pos]){
-        return buscar(datos, inicio, pos - 1, valor);
-      }else{
-        return buscar(datos, pos + 1, fin, valor);
+bool buscar(const vector<int>& datos, int inicio, int fin ,int valor){  
+  if (inicio > fin) return false;
+
+  int mid = (inicio + fin) / 2;
+  if (datos[mid] == valor) return true;
+
+  if (datos[inicio] <= datos[mid]) {
+      if (datos[inicio] <= valor && valor < datos[mid]) {
+          return buscar(datos, inicio, mid - 1, valor);
+      } else {
+          return buscar(datos, mid + 1, fin, valor);
       }
-    }else if(datos[pos + 1] <= datos[fin]){
-      if(valor > datos[pos] && valor <= datos[fin]){
-        return buscar(datos, pos + 1, fin, valor);
-      }else{
-        return buscar(datos, inicio, pos - 1, valor);
+  } else { 
+      if (datos[mid] < valor && valor <= datos[fin]) {
+          return buscar(datos, mid + 1, fin, valor);
+      } else {
+          return buscar(datos, inicio, mid - 1, valor);
       }
-    }
   }
 }
 

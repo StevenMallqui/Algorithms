@@ -10,56 +10,58 @@ using namespace std;
 
 
 // función que resuelve el problema
-bool buscar(const vector<int>& datos, int inicio, int fin ,int valor){
-  if(inicio > fin)
-    return false;
-  else{
-    int pos = (inicio + fin) / 2;
-    if(datos[pos] == valor)
-      return true;
-    
-    if(datos[inicio] <= datos[pos - 1]){
-      if(datos[inicio] <= valor && valor < datos[pos]){
-        return buscar(datos, inicio, pos - 1, valor);
-      }else{
-        return buscar(datos, pos + 1, fin, valor);
-      }
-    }else if(datos[pos + 1] <= datos[fin]){
-      if(valor > datos[pos] && valor <= datos[fin]){
-        return buscar(datos, pos + 1, fin, valor);
-      }else{
-        return buscar(datos, inicio, pos - 1, valor);
-      }
-    }
+
+bool superb(const vector<int> &v, int ini, int fin, int &min, int &max){
+  int n = fin - ini;
+  if(n < 3){
+    if(n == 1){
+      min = v[ini];
+      max = v[ini];
+    }else if(n == 2){
+      min = std::min(v[ini], v[ini+1]);
+      max = std::max(v[ini], v[ini+1]);
+    } 
+    return true;
+  }else{
+    int pos = (ini + (fin - 1)) / 2;
+    int minIz, maxDer, maxIz, minDer;
+    bool superbIZ = superb(v, ini, pos, minIz, maxIz);
+    bool superbDER = superb(v, pos+1, fin, minDer, maxDer);
+    min = std::min(v[pos], std::min(minIz, minDer));
+    max = std::max(v[pos], std::max(maxIz, maxDer));
+
+    return superbIZ && superbDER && (v[pos] == abs(maxIz - minDer));
   }
 }
 
-bool resolver(const vector<int>& datos, int valor) {
-  return buscar(datos, 0, datos.size() - 1, valor);    
+bool resolver(const vector<int>& datos) {
+  int min;
+  int max;    
+  return superb(datos, 0, datos.size(), min, max);
 }
 
 // Resuelve un caso de prueba, leyendo de la entrada la
 // configuración, y escribiendo la respuesta
 bool resuelveCaso() {
+  // leer los datos de la entrada
   int N; cin >> N;
   if (N == -1)
-    return false;
+      return false;
 
-  int valor, elem; cin >> valor;
   vector<int> v(N);
+  int elem;
   for(int i = 0; i < N; i++){
     cin >> elem;
     v[i] = elem;
   }
 
 
-  if(resolver(v, valor))
-    cout << "SI";
-  else 
-    cout << "NO";
+  if(resolver(v))
+    cout << "SUPERB\n";
+  else
+    cout << "NO SUPERB\n";
 
-  cout << '\n';
-  return true;
+  return true;    
 }
 
 int main() {
