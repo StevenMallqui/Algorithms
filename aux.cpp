@@ -1,76 +1,76 @@
-// Yule Zhang
-// E81
-
 #include <iostream>
-#include <iomanip>
-#include <fstream>
-#include <vector>
 using namespace std;
 
-// funci¨®n que resuelve el problema
-int combinatorio(int a, int b, vector<vector<int>>& matriz) {
-    if (b == 0 || a == b) { 
-        matriz[a][b] = 1;
-        return 1; 
-    }
-    else if (b == 1) {
-        matriz[a][b] = a;
-        return a;
-    }
-    else {
-        if (matriz[a - 1][b - 1] == -1)
-            matriz[a - 1][b - 1] = combinatorio(a - 1, b - 1, matriz);
-        if (matriz[a - 1][b] == -1)
-            matriz[a - 1][b] = combinatorio(a - 1, b, matriz);
-        return
-            matriz[a - 1][b - 1] + matriz[a - 1][b];
-    }
+bool resuelve();
+bool tieneUnos(long long n);
+int cuantosSinUno(int n);
 
+int main(int argc, char const *argv[])
+{
+	int ret;
+	long long int n;
+
+	while (resuelve())
+	{
+		ret = cuantosSinUno(n);
+		cout << ret << endl;
+	}
+	
+	return 0;
 }
 
-// Resuelve un caso de prueba, leyendo de la entrada la
-// configuraci¨®n, y escribiendo la respuesta
-bool resuelveCaso() {
-    // leer los datos de la entrada
-    int a, b;
-    cin >> a >> b;
-    if (!cin)
-        return false;
-    //crear la matriz inicializada a -1
-    vector<vector<int>> matriz(a + 1, vector<int>(b + 1));
-    for (int i = 0; i < a + 1; i++) {
-        for (int j = 0; j < b + 1; j++) {
-            matriz[i][j] = -1;
-        }
-    }
+bool resuelve()
+{
+	long long n;
 
-    auto sol = combinatorio(a, b, matriz);
+	cin >> n;
 
-    // escribir sol
-    cout << sol << endl;
+	if (!n)
+	{
+		ret = cuantosSinUno(n);
+		cout << ret << endl;
+	}
 
-    return true;
-
+	return n;
 }
 
-int main() {
-    // Para la entrada por fichero.
-    // Comentar para acepta el reto
-#ifndef DOMJUDGE
-    std::ifstream in("datos.txt");
-    auto cinbuf = std::cin.rdbuf(in.rdbuf()); //save old buf and redirect std::cin to casos.txt
-#endif 
+bool tieneUnos(long long n)
+{
+	while((n != 0) && (n % 10 != 1))
+	{
+		n /= 10;
+	}
 
-
-    while (resuelveCaso())
-        ;
-
-
-    // Para restablecer entrada. Comentar para acepta el reto
-#ifndef DOMJUDGE // para dejar todo como estaba al principio
-    std::cin.rdbuf(cinbuf);
-    system("PAUSE");
-#endif
-
-    return 0;
+	return n % 10 == 1;
 }
+
+int cuantosSinUno(int n)
+{
+	int ultDigito = n%10;
+	long long int ret = 0, raiz = n/10;
+
+	if (n == 0)
+	{
+		return 1;
+	}
+
+	for (int i = 0; i < ultDigito; i++)
+	{
+		if (!tieneUnos(10*raiz+i))
+		{
+			ret++;
+		}
+	}
+
+	if (raiz)
+	{
+		ret += 9*cuantosSinUno(raiz-1);
+	}
+
+	return ret;
+}
+
+/*
+a = 1, b = 10, k = 0
+O(n^k*log(n))
+*/

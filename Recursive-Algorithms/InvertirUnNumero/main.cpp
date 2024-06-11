@@ -9,57 +9,25 @@ using namespace std;
 
 
 // función que resuelve el problema
-bool sinUnos(int n){
+int invertir(int n, int d) {
   if(n < 10){
-    if(n == 1)
-      return false;
-    return true;
+    return d * 10 + n;
   }else{
-    if(n%10 == 1)
-      return false;
-    return sinUnos(n/10);
+    d = d * 10 + (n%10);
+    return invertir(n/10, d);
   }
 }
-
-int resolver(int n){
-  if(n == 0){
-    return 1;
-  }else if(n < 10){
-    return n;
-  }else{
-    if(sinUnos(n)){
-      return resolver(n-1) + 1;
-    }
-    else{
-      if(n%10 == 1 || sinUnos(n-1))
-        return resolver(n-1);
-      else
-        return resolver(n-10);
-    }
-  }
-}
-
-// void resolver(int n) {
-//   int cont = 0;
-//   while (n >= 0)
-//   {
-//     if(sinUnos(n))
-//       cont++;
-//     n--;
-//   }
-//   cout << cont <<'\n';
-// }
 
 // Resuelve un caso de prueba, leyendo de la entrada la
 // configuración, y escribiendo la respuesta
 bool resuelveCaso() {
   // leer los datos de la entrada
   int n; cin >> n;
-  if (! std::cin)
+  if (n == 0)
       return false;
-  
-  cout << resolver(n) <<'\n';
-  
+
+  // escribir sol
+  cout << invertir(n, 0) <<'\n';
   return true;
 }
 
@@ -79,6 +47,7 @@ int main() {
     // Para restablecer entrada. Comentar para acepta el reto
      #ifndef DOMJUDGE // para dejar todo como estaba al principio
      std::cin.rdbuf(cinbuf);
+     system("PAUSE");
      #endif
     
     return 0;

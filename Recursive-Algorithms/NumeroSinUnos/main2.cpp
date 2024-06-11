@@ -5,50 +5,35 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
+#include <cmath>
 using namespace std;
 
 
 // función que resuelve el problema
-bool sinUnos(int n){
-  if(n < 10){
-    if(n == 1)
-      return false;
-    return true;
-  }else{
-    if(n%10 == 1)
-      return false;
-    return sinUnos(n/10);
-  }
+// bool sinUnos(int n){
+//   if(n < 10){
+//     if(n == 1)
+//       return false;
+//     return true;
+//   }else{
+//     if(n%10 == 1)
+//       return false;
+//     return sinUnos(n/10);
+//   }
+// }
+
+int noUnosInter(int n){
+  return pow(9, n);
 }
 
 int resolver(int n){
-  if(n == 0){
-    return 1;
-  }else if(n < 10){
-    return n;
-  }else{
-    if(sinUnos(n)){
-      return resolver(n-1) + 1;
-    }
-    else{
-      if(n%10 == 1 || sinUnos(n-1))
-        return resolver(n-1);
-      else
-        return resolver(n-10);
-    }
-  }
+  int digits = to_string(n).size();
+  cout << digits<<'\n';
+  int noUnos = noUnosInter(digits);
+  int upper = pow(10, digits);
+  int result = noUnos - ((upper-n)/pow(10,digits-1));
+  return result;
 }
-
-// void resolver(int n) {
-//   int cont = 0;
-//   while (n >= 0)
-//   {
-//     if(sinUnos(n))
-//       cont++;
-//     n--;
-//   }
-//   cout << cont <<'\n';
-// }
 
 // Resuelve un caso de prueba, leyendo de la entrada la
 // configuración, y escribiendo la respuesta
