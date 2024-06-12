@@ -1,49 +1,61 @@
-// Nombre del alumno ..... Steven Mallqui Aguilar
-// Usuario del Juez ...... F53
-
-
 #include <iostream>
 #include <iomanip>
 #include <fstream>
 #include <cmath>
+#include <vector>
+#include <cstring>
+#include <algorithm>
 using namespace std;
 
+long long dp[20][2][2];
+vector<int> digits;
 
-// función que resuelve el problema
-// bool sinUnos(int n){
-//   if(n < 10){
-//     if(n == 1)
-//       return false;
-//     return true;
-//   }else{
-//     if(n%10 == 1)
-//       return false;
-//     return sinUnos(n/10);
-//   }
-// }
-
-int noUnosInter(int n){
-  return pow(9, n);
+// Función que implementa la DP para contar números sin '1'
+long long countNumbersWithout1(size_t pos, bool limit, bool leadingZero) {
+    if (pos == digits.size()) {
+        return 1;  // Si llegamos al final, es un número válido
+    }
+    if (dp[pos][limit][leadingZero] != -1) {
+        return dp[pos][limit][leadingZero];
+    }
+    
+    int maxDigit = limit ? digits[pos] : 9;
+    long long result = 0;
+    
+    for (int d = 0; d <= maxDigit; ++d) {
+        if (d == 1) continue;  // No queremos '1' en el número
+        result += countNumbersWithout1(pos + 1, limit && (d == maxDigit), leadingZero && (d == 0));
+    }
+    
+    return dp[pos][limit][leadingZero] = result;
 }
 
-int resolver(int n){
-  int digits = to_string(n).size();
-  cout << digits<<'\n';
-  int noUnos = noUnosInter(digits);
-  int upper = pow(10, digits);
-  int result = noUnos - ((upper-n)/pow(10,digits-1));
-  return result;
+// Función que convierte un número a una lista de dígitos y llama a la DP
+long long solve(long long n) {
+    if (n < 0) return 0;
+    digits.clear();
+    while (n > 0) {
+        digits.push_back(n % 10);
+        n /= 10;
+    }
+    reverse(digits.begin(), digits.end());
+    
+    memset(dp, -1, sizeof(dp));
+    return countNumbersWithout1(0, true, true);
 }
 
-// Resuelve un caso de prueba, leyendo de la entrada la
-// configuración, y escribiendo la respuesta
+int resolver(int n) {
+    return solve(n);
+}
+
+// Resuelve un caso de prueba, leyendo de la entrada la configuración, y escribiendo la respuesta
 bool resuelveCaso() {
   // leer los datos de la entrada
   int n; cin >> n;
-  if (! std::cin)
+  if (!std::cin)
       return false;
   
-  cout << resolver(n) <<'\n';
+  cout << resolver(n) << '\n';
   
   return true;
 }
