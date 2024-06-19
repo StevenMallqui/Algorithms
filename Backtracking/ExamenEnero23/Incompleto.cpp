@@ -14,34 +14,46 @@ bool es_solucion(const int k, const int i, const vector<int>& G, const vector<in
   return  patrullasCiudad[i] + P[k] <= G[i];
 }
 
-void vuelta_atras(int k, const int n, const int m, const int r, const vector<int>& L, const vector<int>& G, const vector<int>& S, const vector<int>& P, vector<int>& patrullasCiudad, vector<int>& sol, int& precioAct, int& precioMin){
+void vuelta_atras(int k, const int n, const int m, const int r, const vector<int>& L, const vector<int>& G, const vector<int>& S, const vector<int>& P, vector<int>& patrullasCiudad, vector<int>& sol, int& precioAct, int& precioMin, int&cont){
   for(int i = 0; i < n; i++){
     sol[k] = i;
-    if(es_solucion(k, i, G, P, patrullasCiudad)){
-      patrullasCiudad[i] += P[k];
-      precioAct += (P[k] * S[i]);
+    if(k == m - 1){
+      cout << precioAct <<'\n';
+      for(int j = cont; j < m; j++){
+        precioAct += (P[j] * r);
+      }
       if(patrullasCiudad[i] >= L[i]){
         if(precioAct < precioMin)
           precioMin = precioAct;
-      }else{
-          vuelta_atras(k + 1, n, m, r, L, G, S, P, patrullasCiudad, sol, precioAct, precioMin);
       }
+      for(int j = cont; j < m; j++){
+        precioAct -= (P[j] * r);
+      }
+    }else if(es_solucion(k, i, G, P, patrullasCiudad)){
+      patrullasCiudad[i] += P[k];
+      precioAct += (P[k] * S[i]);
+      cont++;
+      vuelta_atras(k + 1, n, m, r, L, G, S, P, patrullasCiudad, sol, precioAct, precioMin, cont);
+      cont--;
       patrullasCiudad[i] -= P[k];
       precioAct -= (P[k] * S[i]);
     }
   }
 }
 
+
+
 // función que resuelve el problema
 int resolver(const int n, const int m, const int r, const vector<int>& L, const vector<int>& G, const vector<int>& S, const vector<int>& P){
   //Marcadores
   vector<int> patrullasCiudad(n, 0); // Personas por ciudad
+  int cont = 0;
   //Soluciones
   vector<int> sol(m); 
   int precioAct = 0;
   int precioMin = INT_MAX;
 
-  vuelta_atras(0, n, m, r, L, G, S, P, patrullasCiudad, sol, precioAct, precioMin);
+  vuelta_atras(0, n, m, r, L, G, S, P, patrullasCiudad, sol, precioAct, precioMin, cont);
   return precioMin;
 }
 
