@@ -1,0 +1,16 @@
+m: patrullas de personas
+n: ciudades
+P: vector con personas por patrullas
+- Una patrulla puede ser asignada a una ciudad
+- Pero una ciudad puede necesitar mas patrullas
+L: vector con nº minimo de personas que necesitan como minimo 
+G: vector con maximo nº de personas 
+S: vector con sueldo de los trabajadores por persona en cada ciudad
+Las patrullas su mandan completas, las que esten asignadas todos sus integrantes cobraran su sueldo
+La que no, estaran en reserva y recibiran un sueldo r por persona
+
+
+// Solucion
+asignar patrullas a ciudades
+necesidades cubiertas con sueldo minimo
+
