@@ -1,5 +1,5 @@
 // Nombre del alumno ..... Steven Mallqui Aguilar
-// Usuario del Juez ...... F40
+// Usuario del Juez ...... F53
 
 
 #include <iostream>
@@ -8,26 +8,18 @@
 using namespace std;
 
 
-// función que resuelve el problema
-TipoSolucion resolver(TipoDatos datos) {
-    
-    
-}
-
 // Resuelve un caso de prueba, leyendo de la entrada la
 // configuración, y escribiendo la respuesta
 bool resuelveCaso() {
-    // leer los datos de la entrada
+  // leer los datos de la entrada
+  int N; cin >> N;
+  if (N == 0)
+      return false;
 
-    if (caso especial)
-        return false;
+  // escribir sol
+  cout << N*2 << '\n';
 
-    TipoSolucion sol = resolver(datos);
-
-    // escribir sol
-
-    return true;
-    
+  return true;    
 }
 
 int main() {

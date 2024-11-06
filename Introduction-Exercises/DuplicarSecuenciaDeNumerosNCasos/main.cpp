@@ -12,17 +12,16 @@ using namespace std;
 // configuración, y escribiendo la respuesta
 void resuelveCaso() {
   // leer los datos de la entrada
-  int ini, fin; cin >> ini >> fin;
-
-  int max, cur; cin >> max;
-  for(int i = 1; i <= fin - ini; i++){
-    cin >> cur;
-    if(cur > max){
-      cout << ini + i << ' ';
-      max = cur;
-    }
-  }
   
+  int N, num; cin >> N;
+
+  for(int i = 0; i < N; i++){
+    cin >> num;
+    cout << num * 2;
+    if(i < N - 1)
+      cout << ' ';
+  }
+
   cout << '\n';
 }
 

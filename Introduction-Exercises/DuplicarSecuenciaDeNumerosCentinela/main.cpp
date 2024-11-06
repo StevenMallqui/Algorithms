@@ -10,20 +10,23 @@ using namespace std;
 
 // Resuelve un caso de prueba, leyendo de la entrada la
 // configuración, y escribiendo la respuesta
-void resuelveCaso() {
+bool resuelveCaso() {
   // leer los datos de la entrada
-  int ini, fin; cin >> ini >> fin;
+  int N, num; cin >> N;
+  if (N == -1)
+      return false;
 
-  int max, cur; cin >> max;
-  for(int i = 1; i <= fin - ini; i++){
-    cin >> cur;
-    if(cur > max){
-      cout << ini + i << ' ';
-      max = cur;
-    }
+  // escribir sol
+  for(int i = 0; i < N; i++){
+    cin >> num;
+    cout << num * 2;
+    if(i < N - 1)
+      cout << ' ';
   }
-  
+
   cout << '\n';
+
+  return true;
 }
 
 int main() {
@@ -35,10 +38,8 @@ int main() {
     #endif 
   
   
-  int numCasos;
-  std::cin >> numCasos;
-  for (int i = 0; i < numCasos; ++i)
-      resuelveCaso();
+  while (resuelveCaso())
+      ;
 
   
   // Para restablecer entrada. Comentar para acepta el reto

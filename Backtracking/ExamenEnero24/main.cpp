@@ -22,6 +22,7 @@ void vuelta_atras(const int n, const int C, int k, const vector<char>& asignatur
         if(precioAct < precioMin)
           precioMin = precioAct;
     }else{
+      if(precioAct < precioMin)
         vuelta_atras(n, C, k+1, asignaturas, prerrequisitos, numeroCreditos, costesMatriculacion, creditos, precioAct, precioMin);
     } 
     creditos -= numeroCreditos[k];
@@ -33,6 +34,7 @@ void vuelta_atras(const int n, const int C, int k, const vector<char>& asignatur
       if(precioAct < precioMin)
         precioMin = precioAct;
   }else{
+    if(precioAct < precioMin)
       vuelta_atras(n, C, k+1, asignaturas, prerrequisitos, numeroCreditos, costesMatriculacion, creditos, precioAct, precioMin);
   } 
 }

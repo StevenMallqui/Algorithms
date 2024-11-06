@@ -5,25 +5,42 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
+#include <vector>
 using namespace std;
 
 
+// función que resuelve el problema
+void resolver(const vector<string> &datos, const string nationality) {
+  int last = -1;
+  
+  for(int i = 0; i < datos.size(); i++)
+    if(datos[i] == nationality)
+      last = i;
+    
+  if(last == -1)
+    cout << "NUNCA\n";
+  else
+    cout << datos.size() - last << '\n';
+}
+
 // Resuelve un caso de prueba, leyendo de la entrada la
 // configuración, y escribiendo la respuesta
-void resuelveCaso() {
+bool resuelveCaso() {
   // leer los datos de la entrada
-  int ini, fin; cin >> ini >> fin;
+  int N; cin >> N;
+  if (N == 0)
+      return false;
 
-  int max, cur; cin >> max;
-  for(int i = 1; i <= fin - ini; i++){
-    cin >> cur;
-    if(cur > max){
-      cout << ini + i << ' ';
-      max = cur;
-    }
+  string nationality; cin >> nationality;
+  vector<string> winners(N);
+
+  for(int i = 0; i < N; i++){
+    cin >> winners[i];
   }
-  
-  cout << '\n';
+
+  resolver(winners, nationality);
+
+  return true;  
 }
 
 int main() {
@@ -35,10 +52,8 @@ int main() {
     #endif 
   
   
-  int numCasos;
-  std::cin >> numCasos;
-  for (int i = 0; i < numCasos; ++i)
-      resuelveCaso();
+  while (resuelveCaso())
+      ;
 
   
   // Para restablecer entrada. Comentar para acepta el reto

@@ -5,25 +5,48 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
+#include <vector>
 using namespace std;
 
 
+// función que resuelve el problema
+bool resolver(const vector<int> &datos, const int &D, const int &N) {
+  bool apto = true;
+  int curD = 0;
+  for(int i = 1; i < N && apto; i++){
+    if(datos[i-1] < datos[i])
+      curD += datos[i] - datos[i-1];
+    else
+      curD = 0;
+
+    if(curD > D)
+      apto = false;
+  }
+    
+  return apto;
+}
+
 // Resuelve un caso de prueba, leyendo de la entrada la
 // configuración, y escribiendo la respuesta
-void resuelveCaso() {
+bool resuelveCaso() {
   // leer los datos de la entrada
-  int ini, fin; cin >> ini >> fin;
-
-  int max, cur; cin >> max;
-  for(int i = 1; i <= fin - ini; i++){
-    cin >> cur;
-    if(cur > max){
-      cout << ini + i << ' ';
-      max = cur;
-    }
-  }
+  int D; cin >> D;
+  if (! std::cin)
+      return false;
   
-  cout << '\n';
+  int N; cin >> N;
+  vector<int> heights(N);
+  for(int i = 0; i < N; i++){
+    cin >> heights[i];
+  }
+
+  // escribir sol
+  if(resolver(heights, D, N))
+    cout << "APTA\n";
+  else 
+    cout << "NO APTA\n";
+
+  return true;
 }
 
 int main() {
@@ -35,10 +58,8 @@ int main() {
     #endif 
   
   
-  int numCasos;
-  std::cin >> numCasos;
-  for (int i = 0; i < numCasos; ++i)
-      resuelveCaso();
+  while (resuelveCaso())
+      ;
 
   
   // Para restablecer entrada. Comentar para acepta el reto
