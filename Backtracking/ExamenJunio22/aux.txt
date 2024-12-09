@@ -1,7 +1,0 @@
-N: numero de tareas
-M: numero de programadores
-T[N]: Vector de tiempos necesarios para completar las tareas
-D[M]: Vector de tiempos maximos que un programador le puede dedicar al proyecto
-C[N][M]: Matriz que indica el nivel de competencia del programador j para resolver la tarea i C[i][j]
-
-dedicacion[M]: vector de tiempos de dedicacion actuales de cada programador
