@@ -11,28 +11,21 @@ using namespace std;
 
 // función que resuelve el problema
 int resolver(const vector<int> &datos, const int l) {
-  int segmentos = 1, ceros = 0, unos = 0, longitud = 1, inicio = l-1; 
+  int segmentos = 1, ceros = 0, unos = 0; 
   
-  for(int i = l; i < datos.size(); i++){
+  for(long unsigned int i = l; i < datos.size(); i++){
     if(datos[i] == 0)
       ceros++;
     else if(datos[i] == 1)
       unos++;
     
-    longitud++;
+    if(datos[i - l] == 0)
+      ceros--;
+    else if(datos[i - l] == 1)
+      unos--; 
     
-    if(longitud == l){
-      if(ceros == unos)
-        segmentos++;
-
-      if(datos[inicio] == 0)
-        ceros--;
-      else if(datos[inicio] == 1)
-        unos--; 
-      
-      inicio++;
-      longitud--;
-    }
+    if(ceros == unos)
+      segmentos++;
   }
     
   return segmentos;
