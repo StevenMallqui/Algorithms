@@ -7,29 +7,36 @@
 #include <fstream>
 using namespace std;
 
+bool esPar(int n){
+  return n%2 == 0;
+}
 
 // función que resuelve el problema
-int sumaDigitos(int n) {
-  if(n < 10)
-    return n;
-  else
-    return sumaDigitos(n/10) + n%10;
+int transformar(int n) {
+  if(n < 10){
+    if(esPar(n))
+      return n+1;
+    else
+      return n-1;
+  }else{
+    int lastD = n%10;
+    if(esPar(lastD))
+      lastD++;
+    else
+      lastD--;
+    return (transformar(n/10)*10) + lastD;
+  }
 }
 
 // Resuelve un caso de prueba, leyendo de la entrada la
 // configuración, y escribiendo la respuesta
 void resuelveCaso() {
+
   // leer los datos de la entrada
-  int n, num, elemento; cin >> n >> num;
-  num = sumaDigitos(num);
+  int n; cin >> n;
 
-  for(int i = 0; i < n; i++){
-    cin >> elemento;
-    if(sumaDigitos(elemento) == num)
-      cout << elemento << ' '; 
-  }
-
-  cout << '\n';
+  // escribir sol
+  cout << transformar(n) << '\n';
 }
 
 int main() {

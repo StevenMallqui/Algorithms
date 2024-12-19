@@ -9,27 +9,40 @@ using namespace std;
 
 
 // función que resuelve el problema
-int sumaDigitos(int n) {
-  if(n < 10)
-    return n;
-  else
-    return sumaDigitos(n/10) + n%10;
+int complementario(int n) {
+  if(n < 10){
+    return 9 - n;
+  }else{  
+    int lastD = n%10;
+    lastD = 9 - lastD;
+    return (complementario(n/10) * 10) + lastD;
+  }
+}
+
+int inverso(int n, int &factor){
+  if(n < 10){
+    factor = 10;
+    return 9 - n;
+  }else{ 
+    int inv = inverso(n/10, factor);
+    int lastD = n%10;
+    lastD = 9 - lastD;
+    int num = lastD * factor + inv; 
+    factor *= 10;
+    return num; 
+  }
 }
 
 // Resuelve un caso de prueba, leyendo de la entrada la
 // configuración, y escribiendo la respuesta
 void resuelveCaso() {
+
   // leer los datos de la entrada
-  int n, num, elemento; cin >> n >> num;
-  num = sumaDigitos(num);
-
-  for(int i = 0; i < n; i++){
-    cin >> elemento;
-    if(sumaDigitos(elemento) == num)
-      cout << elemento << ' '; 
-  }
-
-  cout << '\n';
+  int n; cin >> n;  
+  
+  // escribir sol
+  int factor = 0;
+  cout << complementario(n) << ' ' << inverso(n, factor) << '\n';
 }
 
 int main() {
