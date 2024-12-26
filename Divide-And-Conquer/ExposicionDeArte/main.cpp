@@ -9,31 +9,25 @@
 using namespace std;
 
 
+// función que resuelve el problema
+TipoSolucion resolver(TipoDatos datos) {
+    
+    
+}
+
 // Resuelve un caso de prueba, leyendo de la entrada la
 // configuración, y escribiendo la respuesta
 bool resuelveCaso() {
   // leer los datos de la entrada
-  int n; cin >> n;
-  if (n == -1)
+
+  if (caso especial)
       return false;
-  
-  int kms = 0;
-  vector<int> etapas(n);
-  for(int i = 0; i < n; i++){
-    cin >> etapas[i];
-    kms += etapas[i];
-  }
 
-  int k; cin >> k;
-  vector<int> p(k);
-  for(int i = 0; i < k; i++)
-    cin >> p[i];
+  TipoSolucion sol = resolver(datos);
 
-  while(i )
+  // escribir sol
 
-  cout << "---\n";
-
-  return true; 
+  return true;
 }
 
 int main() {
