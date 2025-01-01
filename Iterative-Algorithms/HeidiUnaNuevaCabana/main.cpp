@@ -17,9 +17,9 @@ vector<int> resolver(const vector<int> &valores, int &maximo, const int l) {
 
   while(i >= 0){
     maxDer = max(maxDer, valores[i]);
-    if(valores[i+1] == valores[i] && valores[i] >= maxDer){
+    if(valores[i+1] == valores[i] && valores[i] >= maxDer)
       cont++;
-    }else{
+    else{
       if(cont >= l){
         sol.push_back(i+cont);
         maximo = max(maximo, cont);
