@@ -31,19 +31,18 @@ bool resuelveCaso() {
     p[j]--;
   }
 
-  int i = 0, j = 0;
-  while(i < n && j < P){
-    if(p[j] == i){
-      cout << kms << '\n';
-      j++;
-    }
-    kms -= etapas[i];
-    i++;
-  }
+  vector<long long int> sol(n);
+  sol[0] = kms;
+  for(int i = 1; i < sol.size(); i++)
+    sol[i] = sol[i-1] - etapas[i-1]; 
 
-  while(j < P){
-    cout << 0 << '\n';
-    j++;
+  for(int i = 0; i < P; i++){
+    int dia = p[i];
+    if(dia == n)
+      cout << 0;
+    else
+      cout << sol[dia];
+    cout << '\n';
   }
 
   cout << "---\n";
