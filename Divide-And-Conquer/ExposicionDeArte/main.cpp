@@ -8,21 +8,18 @@
 #include <vector>
 using namespace std;
 
-// Función que verifica si es posible transportar las obras con una capacidad máxima del camión 'cap'
 bool esPosible(const vector<int>& obras, int maxViajes, int cap) {
-    int viajes = 1;  // Comenzamos con un primer viaje
+    int viajes = 1; 
     int cargaActual = 0;
     
     for (int peso : obras) {
         if (cargaActual + peso > cap) {
-            viajes++;  // Necesitamos un nuevo viaje
-            cargaActual = peso;  // Empezamos con esta pieza en el nuevo viaje
-            if (viajes > maxViajes) {
-                return false;  // Si superamos el número de viajes, no es posible
-            }
-        } else {
-            cargaActual += peso;  // Añadimos la pieza al viaje actual
-        }
+            viajes++;  
+            cargaActual = peso;  
+            if (viajes > maxViajes)
+                return false;  
+        } else
+            cargaActual += peso;  
     }
     
     return true;
@@ -30,22 +27,21 @@ bool esPosible(const vector<int>& obras, int maxViajes, int cap) {
 
 // Función principal que usa búsqueda binaria para encontrar la mínima carga máxima
 int minCarga(int n, int maxViajes, const vector<int>& obras, int maxPeso, int sumaPesos) {
-    int izquierda = maxPeso;  // El mínimo debe ser el peso de la obra más pesada
-    int derecha = sumaPesos;  // La suma total de todos los pesos es el máximo posible
-    
+    int izquierda = maxPeso;  
+    int derecha = sumaPesos;  
+
     int resultado = derecha;
-    
+
     while (izquierda <= derecha) {
         int medio = (izquierda + derecha) / 2;
         
         if (esPosible(obras, maxViajes, medio)) {
-            resultado = medio;  // Si es posible, intentamos con una capacidad menor
+            resultado = medio;  
             derecha = medio - 1;
-        } else {
-            izquierda = medio + 1;  // Si no es posible, necesitamos más capacidad
-        }
+        }else
+            izquierda = medio + 1;  
     }
-    
+
     return resultado;
 }
 
