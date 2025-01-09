@@ -6,43 +6,38 @@
 #include <iomanip>
 #include <fstream>
 #include <vector>
-#include <algorithm>
 
 using namespace std;
 
+bool comprobar(const vector<int> &elementos, int x, int c, int f){
+  int veces = 0;
+  for(int i = c; i <= f; i++)
+    if(elementos[i] == x)
+      veces++;
 
-struct segmento {
-  int valor;
-  int cantidad;
-};
-
-segmento combinar(const segmento& iz, const segmento& der) {
-  segmento result;
-  
-  if (iz.valor == der.valor) {
-      result.valor = iz.valor;
-      result.cantidad = iz.cantidad + der.cantidad;
-  } else {
-      if (iz.cantidad > der.cantidad) {
-          result.valor = iz.valor;
-          result.cantidad = iz.cantidad - der.cantidad;
-      } else {
-          result.valor = der.valor;
-          result.cantidad = der.cantidad - iz.cantidad;
-      }
-  }
-  return result;
+  return veces > (f-c+1)/2;
 }
 
-// Función recursiva de divide y vencerás
-segmento mayoritarioAux(const vector<int>& elementos, int i, int f) {
-  if (i == f) {
-      return {elementos[i], 1};
-  } else {
-      int m = (i + f) / 2;
-      segmento iz = mayoritarioAux(elementos, i, m);
-      segmento der = mayoritarioAux(elementos, m + 1, f);
-      return combinar(iz, der);
+pair<bool, int> mayoritario(const vector<int> &elementos, int c, int f){
+  if(c == f)
+    return {true, elementos[c]};
+  else{
+    int m = (c+f)/2;
+    pair<bool, int> iz = mayoritario(elementos, c, m);
+    pair<bool, int> der = mayoritario(elementos, m+1, f);
+    bool existe = false;
+    int mayor;
+    if(iz.first){
+      existe = comprobar(elementos, iz.second, c, f);
+      mayor = iz.second;
+    }
+
+    if(!existe && der.first){
+      existe = comprobar(elementos, der.second, c, f);
+      mayor = der.second;
+    }
+
+    return {existe, mayor};
   }
 }
 
@@ -62,19 +57,10 @@ void resuelveCaso() {
       return;
   }
 
-  sort(elementos.begin(), elementos.end());
-  segmento res = mayoritarioAux(elementos, 0, elementos.size() - 1);
-  int n = elementos.size();
-  
-  // Verificar si el candidato es mayoritario
-  int count = 0;
-  for (int i = 0; i < n; ++i)
-    if (elementos[i] == res.valor)
-      ++count;
-
-  if (count > n / 2)
-    cout << res.valor;
-  else 
+  pair<bool, int> m = mayoritario(elementos, 0, elementos.size()-1);
+  if(m.first)
+    cout << m.second;
+  else
     cout << "NO";
 
   cout << '\n';
